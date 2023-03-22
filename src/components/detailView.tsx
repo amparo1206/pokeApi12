@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Card, CardContent, Typography } from '@material-ui/core';
 import axios from 'axios';
+import DataGrid, { Column } from 'devextreme-react/data-grid';
+
 
 interface DetailViewProps {
   data: any;
@@ -35,7 +37,7 @@ const DetailView: React.FC<DetailViewProps> = ({ data }) => {
       <Card>
         <CardContent>
           <Typography variant="h5" component="h2">
-            Order: {detailData?.order}
+            Id: {detailData?.id}
           </Typography>
           <Typography color="textSecondary">
             {detailData?.name}
@@ -43,11 +45,26 @@ const DetailView: React.FC<DetailViewProps> = ({ data }) => {
           <Typography variant="h5" component="h2">
             Types
           </Typography>
-          {detailData?.types.map((typeObject) => { 
-            return <Typography key={typeObject.slot} color="textSecondary">
-              {typeObject.slot}: {typeObject.type.name}
-            </Typography>
-          }) }
+          {detailData?.types ? 
+          <DataGrid
+            dataSource={detailData?.types}
+            showBorders={true}>
+            <Column
+              dataField="slot"
+              caption="Id"
+              dataType="string"
+              alignment="right"
+            />
+            <Column
+              dataField="type.name"
+              caption="Tipo"
+              dataType="string"
+              alignment="right"
+            />
+          </DataGrid>
+          : <></>
+        }
+          
 
         </CardContent>
       </Card>

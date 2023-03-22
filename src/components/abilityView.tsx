@@ -6,20 +6,19 @@ import { Button } from '@material-ui/core';
 interface ViewProps {
   title: string;
   data: any[];
-  updateDataGrid: (page: string) => void;
+  updateDataGrid: (goTo: string) => any;
 }
 
-const PokeView: React.FC<ViewProps> = ({ title, data, updateDataGrid }) => {
+const AbilityView: React.FC<ViewProps> = ({ title, data, updateDataGrid }) => {
   const [selectedData, setSelectedData] = useState(null);
-  
   return (
     <div>
       <h2>{title}</h2>
       <div className='poke-container'>
         <div className="poke-table">
           <DataGrid
-            dataSource={data}
-            onRowClick={(item) => {setSelectedData(item.data)}}
+             dataSource={data}
+             onRowClick={(item) => {setSelectedData(item.data)}}
         showBorders={true}>
             <Column
               dataField="name"
@@ -40,4 +39,4 @@ const PokeView: React.FC<ViewProps> = ({ title, data, updateDataGrid }) => {
   );
 };
 
-export default PokeView;
+export default AbilityView;

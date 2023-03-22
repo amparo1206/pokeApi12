@@ -5,6 +5,7 @@
 .page-wrapper{
   display: flex;
   flex-direction: row;
+  width: 100vw;
 }
 
 .sidebar-container {
@@ -21,14 +22,8 @@
 .poke-container {
   display: flex;
   flex-direction: row;
-  width: max-content;
+  width: 100%;
   justify-content: center;
-}
-
-.poke-detail {
-  display: flex;
-  flex-direction: column;
-  width: auto;
 }
 
 .poke-detail {
@@ -37,4 +32,5 @@
   width: fit-content;
   justify-content: center;
   padding: 30px;
+  width: 100%;
 }

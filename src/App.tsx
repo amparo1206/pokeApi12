@@ -1,37 +1,93 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import Sidenav from './components/sidenav';
 import PokeView from './components/pokeView';
+import AbilityView from './components/abilityView';
 import Home from './components/home';
 import './App.css';
-import { Button } from '@material-ui/core';
+import { Button } from 'devextreme-react';
 
 const App: React.FC = () => {
   const [selectedPage, setSelectedPage] = useState("home");
   const [open, setOpen] = useState(false);
-  const [data, setData] = useState([]);
-  const [selectedData, setSelectedData] = useState(null);
+  const [pokemonData, setPokemonData] = useState<PokeApiResponse>({
+    count: 0,
+    next: null,
+    previous: null,
+    results: []
+  }
+);
 
-  interface AxiosResponse{
-  
-}
+  const [abilityData, setHabilityData] = useState<PokeApiResponse>({
+    count: 0,
+    next: null,
+    previous: null,
+    results: []
+  }
+);
+
+  interface PokeApiResponse{
+    count: number;
+    next: string | null;
+    previous: string | null;
+    results: any[]
+  }
 
   useEffect(() => {
     const fetchData = async () => {
-      let response = await axios<>('https://pokeapi.co/api/v2/pokemon/');
-      const results = response.results.map((value: any, index: number) => {
-        return { ...value, id: index + 1 }
-      })
-      response = {
-        ...response, 
-      setData(response);
+      await pokemonApiCall();
+      await abilityApiCall();
     };
     fetchData();
   }, []);
 
-  const handleListItemClick = (item: any) => {
-    setSelectedData(item.data);
-  };
+  const pokemonApiCall = async(url?: string | null) => {
+    const defaultUrl = 'https://pokeapi.co/api/v2/pokemon/'
+    let response = await axios<PokeApiResponse>(url ? url : defaultUrl);
+      const results = response.data.results.map((value: any, index: number) => {
+        return { ...value, id: index + 1 }
+      })
+      let data = response.data;
+
+      data = { ...data, results }
+      setPokemonData(data);
+  }
+
+  const abilityApiCall = async(url?: string | null) => {
+    const defaultUrl = 'https://pokeapi.co/api/v2/ability/'
+    let response = await axios<PokeApiResponse>(url ? url : defaultUrl);
+      const results = response.data.results.map((value: any, index: number) => {
+        return { ...value, id: index + 1 }
+      })
+      let data = response.data;
+
+      data = { ...data, results }
+      setHabilityData(data);
+  }
+
+  const updatePokemonData = (goTo: string) => {
+    switch(goTo){
+      case 'previous':
+        pokemonApiCall(pokemonData?.previous);
+      break;
+      case 'next':
+        pokemonApiCall(pokemonData?.next);
+      break;
+
+    }
+  }
+
+  const updateAbilityData = (goTo: string) => {
+    switch(goTo){
+      case 'previous':
+        abilityApiCall(abilityData?.previous);
+      break;
+      case 'next':
+        abilityApiCall(abilityData?.next);
+      break;
+
+    }
+  }
 
   const handlepageChange = (page: string) => {
     setSelectedPage(page);
@@ -42,12 +98,20 @@ const App: React.FC = () => {
       case "home":
         return <Home title="Home" />
       case "pokemon":
-        return <PokeView title="Pokémon" data={data} selectedData={selectedData} onItemClick={handleListItemClick} />
+        return <><PokeView 
+          title="Pokémon" 
+          data={pokemonData?.results} 
+          updateDataGrid={updatePokemonData}
+          />
+          <AbilityView 
+          title="Habilidad" 
+          data={abilityData?.results} 
+          updateDataGrid={updateAbilityData}
+          /></>
       default:
         return <Home title="Home" />
     }
   };
-
 
   return (
     <div className='page-wrapper'>
