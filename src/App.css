@@ -1,0 +1,40 @@
+.App {
+  display: flex;
+}
+
+.page-wrapper{
+  display: flex;
+  flex-direction: row;
+}
+
+.sidebar-container {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+}
+
+.page-content {
+  display: flex;
+  width: 100%;
+}
+
+.poke-container {
+  display: flex;
+  flex-direction: row;
+  width: max-content;
+  justify-content: center;
+}
+
+.poke-detail {
+  display: flex;
+  flex-direction: column;
+  width: auto;
+}
+
+.poke-detail {
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+  justify-content: center;
+  padding: 30px;
+}
