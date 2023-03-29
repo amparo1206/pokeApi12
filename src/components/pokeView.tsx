@@ -9,7 +9,7 @@ interface ViewProps {
   updateDataGrid: (page: string) => void;
 }
 
-const PokeView: React.FC<ViewProps> = ({ title, data, updateDataGrid }) => {
+const PokeView = ({title, data, updateDataGrid}: ViewProps) => {
   const [selectedData, setSelectedData] = useState(null);
   
   return (

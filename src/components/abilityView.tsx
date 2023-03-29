@@ -9,7 +9,7 @@ interface ViewProps {
   updateDataGrid: (goTo: string) => any;
 }
 
-const AbilityView: React.FC<ViewProps> = ({ title, data, updateDataGrid }) => {
+const AbilityView = ({title, data, updateDataGrid}: ViewProps) => {
   const [selectedData, setSelectedData] = useState(null);
   return (
     <div>

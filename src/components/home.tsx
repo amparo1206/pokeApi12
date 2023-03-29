@@ -4,7 +4,7 @@ interface ViewProps {
   title: string;
 }
 
-const Home: React.FC<ViewProps> = ({ title }) => {
+const Home = ({title}: ViewProps) => {
   return (
     <div>
       <h2>{title}</h2>    

@@ -23,7 +23,7 @@ interface DetailDataInterface {
   ]
 }
 
-const DetailView: React.FC<DetailViewProps> = ({ data }) => {
+const DetailView = ({data}: DetailViewProps) => {
   const [detailData, setDetailData] = useState<DetailDataInterface | null>(null);
   useEffect(() => {
     const fetchData = async () => {

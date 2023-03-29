@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  Button,
   Drawer,
   List,
   ListItem,
@@ -15,7 +14,7 @@ interface SidenavProps {
   onMenuItemSelect: (page: string) => void;
 }
 
-const Sidenav: React.FC<SidenavProps> = ({ open, onClose, onMenuItemSelect }) => {
+const Sidenav = ({open, onClose, onMenuItemSelect}: SidenavProps) => {
   return (
     <Drawer open={open} onClose={onClose}>
       <List>
