@@ -48,6 +48,7 @@ const DetailView = ({data}: DetailViewProps) => {
           {detailData?.types ? 
           <DataGrid
             dataSource={detailData?.types}
+            columnAutoWidth = {true}
             showBorders={true}>
             <Column
               dataField="slot"
