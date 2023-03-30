@@ -1,11 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import axios, { AxiosResponse } from 'axios';
-import Sidenav from './components/sidenav';
-import PokeView from './components/view/pokeView';
-import AbilityView from './components/view/abilityView';
-import Home from './components/pages/home';
-import './App.css';
-import { Button } from 'devextreme-react';
+import React, { useState, useEffect } from "react";
+import axios, { AxiosResponse } from "axios";
+import Sidenav from "./components/sidenav";
+import PokeView from "./components/view/pokeView";
+import AbilityView from "./components/view/abilityView";
+import Home from "./components/pages/home";
+import "./App.css";
+import Button from 'devextreme-react/button';
+import SpeciesView from "./components/view/speciesView";
+import 'devextreme/dist/css/dx.light.css'
+
 
 const App: React.FC = () => {
   const baseUrl = "https://pokeapi.co/api/v2";
@@ -15,80 +18,105 @@ const App: React.FC = () => {
     count: 0,
     next: null,
     previous: null,
-    results: []
-  }
-);
+    results: [],
+  });
 
   const [abilityData, setHabilityData] = useState<PokeApiResponse>({
     count: 0,
     next: null,
     previous: null,
-    results: []
-  }
-);
-
-  interface PokeApiResponse{
+    results: [],
+  });
+  const [speciesData, setGenderData] = useState<PokeApiResponse>({
+    count: 0,
+    next: null,
+    previous: null,
+    results: [],
+  });
+  interface PokeApiResponse {
     count: number;
     next: string | null;
     previous: string | null;
-    results: any[]
+    results: any[];
   }
 
   useEffect(() => {
     const fetchData = async () => {
       await pokemonApiCall();
       await abilityApiCall();
+      await speciesApiCall();
     };
     fetchData();
-  }, []);
+  },[]);
 
-  const pokemonApiCall = async(url?: string | null) => {
-    const defaultUrl =  `${baseUrl}/pokemon/`
+  const pokemonApiCall = async (url?: string | null) => {
+    const defaultUrl = `${baseUrl}/pokemon/`;
     let response = await axios<PokeApiResponse>(url ? url : defaultUrl);
-      const results = response.data.results.map((value: any, index: number) => {
-        return { ...value, id: index + 1 }
-      })
-      let data = response.data;
+    const results = response.data.results.map((value: any, index: number) => {
+      return { ...value, id: index + 1 };
+    });
+    let data = response.data;
 
-      data = { ...data, results }
-      setPokemonData(data);
-  }
+    data = { ...data, results };
+    setPokemonData(data);
+  };
 
-  const abilityApiCall = async(url?: string | null) => {
-    const defaultUrl = `${baseUrl}/ability/`
+  const abilityApiCall = async (url?: string | null) => {
+    const defaultUrl = `${baseUrl}/ability/`;
     let response = await axios<PokeApiResponse>(url ? url : defaultUrl);
-      const results = response.data.results.map((value: any, index: number) => {
-        return { ...value, id: index + 1 }
-      })
-      let data = response.data;
+    const results = response.data.results.map((value: any, index: number) => {
+      return { ...value, id: index + 1 };
+    });
+    let data = response.data;
 
-      data = { ...data, results }
-      setHabilityData(data);
+    data = { ...data, results };
+    setHabilityData(data);
+  };
+
+  const speciesApiCall = async (url?:string | null) =>{
+    const defaultUrl = `${baseUrl}/gender/`;
+    let response = await axios<PokeApiResponse>(url ? url : defaultUrl);
+    const results = response.data.results.map((value: any, index: number) => {
+      return { ...value, id: index + 1 };
+    });
+    let data = response.data;
+
+    data= {...data, results};
+    setGenderData(data);
   }
 
   const updatePokemonData = (goTo: string) => {
-    switch(goTo){
-      case 'previous':
+    switch (goTo) {
+      case "previous":
         pokemonApiCall(pokemonData?.previous);
-      break;
-      case 'next':
+        break;
+      case "next":
         pokemonApiCall(pokemonData?.next);
-      break;
-
+        break;
     }
-  }
+  };
 
   const updateAbilityData = (goTo: string) => {
-    switch(goTo){
-      case 'previous':
+    switch (goTo) {
+      case "previous":
         abilityApiCall(abilityData?.previous);
-      break;
-      case 'next':
+        break;
+      case "next":
         abilityApiCall(abilityData?.next);
-      break;
-
+        break;
     }
-  }
+  };
+
+  const updateSpeciesData = (goTo: string) => {
+    switch (goTo) {
+      case "previous":
+        speciesApiCall(speciesData?.previous);
+        break;
+      case "next":
+        speciesApiCall(speciesData?.next);
+        break;
+    }
+  };
 
   const handlepageChange = (page: string) => {
     setSelectedPage(page);
@@ -97,34 +125,49 @@ const App: React.FC = () => {
   const onMenuItemSelect = (page: string) => {
     switch (page) {
       case "home":
-        return <Home title="Home" />
+        return <Home title="Home" />;
       case "pokemon":
-        return <><PokeView 
-          title="Pokémon" 
-          data={pokemonData?.results} 
-          updateDataGrid={updatePokemonData}
-          />
-          <AbilityView 
-          title="Habilidad" 
-          data={abilityData?.results} 
-          updateDataGrid={updateAbilityData}
-          /></>
+        return (
+          <>
+            <PokeView
+              title="Pokémon"
+              data={pokemonData?.results}
+              updateDataGrid={updatePokemonData}
+            />
+            <AbilityView
+              title="Habilidad"
+              data={abilityData?.results}
+              updateDataGrid={updateAbilityData}
+            />
+            <SpeciesView
+              title="Gender"
+              data={speciesData?.results}
+              updateDataGrid={updateSpeciesData}
+            />
+          </>
+        );
       default:
-        return <Home title="Home" />
+        return <Home title="Home" />;
     }
   };
 
   return (
-    <div className='page-wrapper'>
+    <div className="page-wrapper">
       <div className="sidebar-container">
-          <Button onClick={() => {setOpen(true)}}>
+        <Button
+          onClick={() => {
+            setOpen(true);
+          }}
+        >
           Menu
         </Button>
-        <Sidenav open={open} onClose={() => setOpen(false)} onMenuItemSelect={handlepageChange}/>
+        <Sidenav
+          open={open}
+          onClose={() => setOpen(false)}
+          onMenuItemSelect={handlepageChange}
+        />
       </div>
-      <div className="page-content">
-        {onMenuItemSelect(selectedPage)}
-      </div>
+      <div className="page-content">{onMenuItemSelect(selectedPage)}</div>
     </div>
   );
 };

@@ -2,7 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { Card, CardContent, Typography } from '@material-ui/core';
 import axios from 'axios';
 import DataGrid, { Column } from 'devextreme-react/data-grid';
-import { Button } from 'devextreme-react';
+import 'devextreme/dist/css/dx.light.css'
+
+
 
 
 interface DetailViewProps {
@@ -54,6 +56,12 @@ const DetailView = ({data}: DetailViewProps) => {
             <Column
               dataField="slot"
               caption="Id"
+              dataType="string"
+              alignment="right"
+            />
+            <Column
+              dataField="type.name"
+              caption="Tipo"
               dataType="string"
               alignment="right"
             />

@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import DataGrid, { Column } from "devextreme-react/data-grid";
+import DetailView from "./detailView";
 import 'devextreme/dist/css/dx.light.css'
 import Button from 'devextreme-react/button';
-import DetailView from "./detailView";
+
 
 interface ViewProps {
   title: string;
@@ -10,7 +11,7 @@ interface ViewProps {
   updateDataGrid: (page: string) => void;
 }
 
-const PokeView = ({ title, data, updateDataGrid }: ViewProps) => {
+const SpeciesView = ({ title, data, updateDataGrid }: ViewProps) => {
   const [selectedData, setSelectedData] = useState(null);
 
   return (
@@ -32,15 +33,15 @@ const PokeView = ({ title, data, updateDataGrid }: ViewProps) => {
               alignment="right"
             />
           </DataGrid>
-          <Button onClick={() => updateDataGrid("previous")}>Previous</Button>
-          <Button onClick={() => updateDataGrid("next")}>Next</Button>
+          <Button onClick={() => updateDataGrid('previous')}>Previous</Button> 
+          <Button onClick={() => updateDataGrid('next')}>Next</Button> 
         </div>
         <div className="poke-detail">
-          {selectedData && <DetailView data={selectedData} />}
+            {selectedData && <DetailView data={selectedData}/>}
         </div>
       </div>
     </div>
   );
 };
 
-export default PokeView;
+export default SpeciesView;
