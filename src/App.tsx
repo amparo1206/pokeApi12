@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios, { AxiosResponse } from 'axios';
 import Sidenav from './components/sidenav';
-import PokeView from './components/pokeView';
-import AbilityView from './components/abilityView';
-import Home from './components/home';
+import PokeView from './components/view/pokeView';
+import AbilityView from './components/view/abilityView';
+import Home from './components/pages/home';
 import './App.css';
 import { Button } from 'devextreme-react';
 
 const App: React.FC = () => {
+  const baseUrl = "https://pokeapi.co/api/v2";
   const [selectedPage, setSelectedPage] = useState("home");
   const [open, setOpen] = useState(false);
   const [pokemonData, setPokemonData] = useState<PokeApiResponse>({
@@ -42,7 +43,7 @@ const App: React.FC = () => {
   }, []);
 
   const pokemonApiCall = async(url?: string | null) => {
-    const defaultUrl = 'https://pokeapi.co/api/v2/pokemon/'
+    const defaultUrl =  `${baseUrl}/pokemon/`
     let response = await axios<PokeApiResponse>(url ? url : defaultUrl);
       const results = response.data.results.map((value: any, index: number) => {
         return { ...value, id: index + 1 }
@@ -54,7 +55,7 @@ const App: React.FC = () => {
   }
 
   const abilityApiCall = async(url?: string | null) => {
-    const defaultUrl = 'https://pokeapi.co/api/v2/ability/'
+    const defaultUrl = `${baseUrl}/ability/`
     let response = await axios<PokeApiResponse>(url ? url : defaultUrl);
       const results = response.data.results.map((value: any, index: number) => {
         return { ...value, id: index + 1 }
