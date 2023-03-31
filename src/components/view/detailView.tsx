@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { Typography } from "@material-ui/core";
-import axios from "axios";
-import DataGrid, { Column } from "devextreme-react/data-grid";
-import { Popup } from "devextreme-react/popup";
-import { Button } from "devextreme-react/button";
-import "devextreme/dist/css/dx.light.css";
+import React, { useEffect, useState } from 'react';
+import { Typography } from '@material-ui/core';
+import axios from 'axios';
+import DataGrid, { Column } from 'devextreme-react/data-grid';
+import {Popup} from 'devextreme-react/popup';
+import {Button} from 'devextreme-react/button';
+import 'devextreme/dist/css/dx.light.css'
+
+
+
 
 interface DetailViewProps {
   data: any;
@@ -16,24 +19,21 @@ interface DetailDataInterface {
   id: number;
   types: [
     {
-      slot: number;
+      slot: number,
       type: {
-        name: string;
-        url: string;
-      };
+        name: string,
+        url: string
+      }
     }
-  ];
+  ]
 }
 
-const DetailView = ({ data }: DetailViewProps) => {
-  const [detailData, setDetailData] = useState<DetailDataInterface | null>(
-    null
-  );
-  const [popupVisible, setPopupVisible] = useState(false);
-  const [selectedData, setSelectedData] = useState(null);
 
-  const showPopup = (selectedData: any) => {
-    setSelectedData(selectedData);
+const DetailView = ({data}: DetailViewProps) => {
+  const [detailData, setDetailData] = useState<DetailDataInterface | null>(null);
+  const [popupVisible, setPopupVisible] = useState(false);
+
+  const showPopup = () => {
     setPopupVisible(true);
   };
 
@@ -44,53 +44,52 @@ const DetailView = ({ data }: DetailViewProps) => {
   const popupContent = () => {
     return (
       <div>
-        <h2 className="h2-content">Contenido del Pop-up</h2>
-        <p>Esto es el contenido del popup</p>
         {gridContent()}
       </div>
     );
   };
 
   const gridContent = () => {
-    return (
+    return(
       <>
-        <Typography variant="h5" component="h2">
-          Id: {detailData?.id}
-        </Typography>
-        <Typography color="textSecondary">{detailData?.name}</Typography>
-        {detailData?.types ? (
+      <Typography variant="h2" component="h3">
+            Id: {detailData?.id}
+          </Typography>
+          <Typography color="textSecondary">
+            {detailData?.name}
+          </Typography>
+          {detailData?.types ? 
           <>
-            <Typography variant="h5" component="h2">
-              Types
-            </Typography>
-            <DataGrid
-              dataSource={detailData?.types}
-              columnAutoWidth={true}
-              showBorders={true}
-              onRowClick={(data) => showPopup(data.data)}
-            >
-              <Column
-                dataField="slot"
-                caption="Id"
-                name="id"
-                dataType="string"
-                alignment="right"
-              />
-              <Column
-                dataField="type.name"
-                caption="Tipo"
-                name="name"
-                dataType="string"
-                alignment="right"
-              />
-            </DataGrid>
+          <Typography variant="h5" component="h2">
+          Types
+        </Typography>
+          <DataGrid
+            dataSource={detailData?.types}
+            columnAutoWidth = {true}
+            showBorders={true}>
+            <Column
+              dataField="slot"
+              caption="Id"
+              name="id"
+              dataType="string"
+              alignment="right"
+            />
+            <Column
+              dataField="type.name"
+              caption="Tipo"
+              name="name"
+              dataType="string"
+              alignment="right"
+            />
+
+          </DataGrid>
           </>
-        ) : (
-          <></>
-        )}
+          : <></>
+        }
       </>
-    );
-  };
+      
+    )
+  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -100,21 +99,18 @@ const DetailView = ({ data }: DetailViewProps) => {
     fetchData();
   }, [data.url]);
 
-  return (
-    <div>
-      {selectedData && (
-        <>
-          <Button text="Pop-up" onClick={showPopup} />
-          <Popup
-            visible={popupVisible}
-            onHiding={hidePopup}
-            dragEnabled={true}
-            closeOnOutsideClick={true}
-            contentRender={popupContent}
-          />
-        </>
-      )}
-    </div>
-  );
+    return (
+
+      <div>
+    <Button text = "Pop-up" onClick={showPopup}/>
+    <Popup
+    visible= {popupVisible}
+    onHiding = {hidePopup}
+    dragEnabled = {true}
+    closeOnOutsideClick = {true}
+    contentRender = {popupContent}
+    />  
+      </div>
+    );
 };
 export default DetailView;
