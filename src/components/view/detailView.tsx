@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Card, CardContent, Typography } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
 import axios from 'axios';
 import DataGrid, { Column } from 'devextreme-react/data-grid';
 import {Popup} from 'devextreme-react/popup';
@@ -44,37 +44,17 @@ const DetailView = ({data}: DetailViewProps) => {
   const popupContent = () => {
     return (
       <div>
-        <h2>Pop-up Content</h2>
+        <h2>Contenido del Pop-up</h2>
         <p>Esto es el contenido del popup</p>
         <Button text="Close" onClick={hidePopup} />
       </div>
     );
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const result = await axios(data.url);
-      setDetailData(result.data);
-    };
-    fetchData();
-  }, [data.url]);
-
-    return (
-
-      <div>
-    <h2>Contenido del Popup</h2>
-    <p>Esto es el contenido del Popup</p>
-    <Button text = "show Pop-up" onClick={showPopup}/>
-    <>
-    <Popup
-    visible= {popupVisible}
-    onHiding = {hidePopup}
-    dragEnabled = {true}
-    closeOnOutsideClick = {true}
-    contentRender = {popupContent}
-    />
-
-          <Typography variant="h5" component="h2">
+  const gridContent = () => {
+    return(
+      <>
+      <Typography variant="h5" component="h2">
             Id: {detailData?.id}
           </Typography>
           <Typography color="textSecondary">
@@ -106,10 +86,33 @@ const DetailView = ({data}: DetailViewProps) => {
 
           </DataGrid>
           </>
-          
           : <></>
         }
       </>
+      
+    )
+  }
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await axios(data.url);
+      setDetailData(result.data);
+    };
+    fetchData();
+  }, [data.url]);
+
+    return (
+
+      <div>
+    <Button text = "Pop-up" onClick={showPopup}/>
+    {gridContent()}
+    <Popup
+    visible= {popupVisible}
+    onHiding = {hidePopup}
+    dragEnabled = {true}
+    closeOnOutsideClick = {true}
+    contentRender = {popupContent}
+    />  
       </div>
     );
 };
