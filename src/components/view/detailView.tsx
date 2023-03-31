@@ -52,18 +52,18 @@ const DetailView = ({data}: DetailViewProps) => {
   const gridContent = () => {
     return(
       <>
-      <Typography variant="h2" component="h3">
+      <Typography className='content-popup-inside' variant="h2" component="h3">
             Id: {detailData?.id}
           </Typography>
-          <Typography color="textSecondary">
+          <Typography className='content-popup-pokemon-name'>
             {detailData?.name}
           </Typography>
           {detailData?.types ? 
           <>
-          <Typography variant="h5" component="h2">
+          <Typography className='content-popup-inside'  variant="h2" component="h5">
           Types
         </Typography>
-          <DataGrid
+          <DataGrid className='pop-up-DaraGrid'
             dataSource={detailData?.types}
             columnAutoWidth = {true}
             showBorders={true}>

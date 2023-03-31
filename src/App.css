@@ -60,3 +60,24 @@
   margin: 10px;
   color: blueviolet;
 }
+
+.content-popup-inside{
+  display: flex;
+  justify-content: center;
+  margin: 10px;
+  padding: 10px;
+}
+
+.content-popup-pokemon-name{
+  display: flex;
+  justify-content: center;
+  margin: 10px;
+  padding: 10px;
+  color: 	#D2691E;
+}
+
+.pop-up-DaraGrid{
+  display: flex;
+  justify-content: center;
+  margin: 10px;
+}
