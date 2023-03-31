@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import DataGrid, { Column } from 'devextreme-react/data-grid';
+import DataGrid, { Column, Selection } from 'devextreme-react/data-grid';
 import DetailView from './detailView';
 import 'devextreme/dist/css/dx.light.css'
 import Button from 'devextreme-react/button';
@@ -21,6 +21,9 @@ const AbilityView = ({title, data, updateDataGrid}: ViewProps )=> {
              dataSource={data}
              onRowClick={(item) => {setSelectedData(item.data)}}
         showBorders={true}>
+          <Selection
+            mode="single"
+          />
             <Column
               dataField="name"
               caption="Nombre"

@@ -5,10 +5,9 @@ import PokeView from "./components/view/pokeView";
 import AbilityView from "./components/view/abilityView";
 import Home from "./components/pages/home";
 import "./App.css";
-import Button from 'devextreme-react/button';
-import SpeciesView from "./components/view/speciesView";
-import 'devextreme/dist/css/dx.light.css'
-
+import Button from "devextreme-react/button";
+import "devextreme/dist/css/dx.light.css";
+import TabView from "./components/view/tabView";
 
 const App: React.FC = () => {
   const baseUrl = "https://pokeapi.co/api/v2";
@@ -47,13 +46,13 @@ const App: React.FC = () => {
       await speciesApiCall();
     };
     fetchData();
-  },[]);
+  }, []);
 
   const pokemonApiCall = async (url?: string | null) => {
     const defaultUrl = `${baseUrl}/pokemon/`;
     let response = await axios<PokeApiResponse>(url ? url : defaultUrl);
-    const results = response.data.results.map((value: any, index: number) => {
-      return { ...value, id: index + 1 };
+    const results = response.data.results.map((value: any) => {
+      return { ...value, id: value.url.split("/").filter(Boolean).pop() };
     });
     let data = response.data;
 
@@ -73,17 +72,17 @@ const App: React.FC = () => {
     setHabilityData(data);
   };
 
-  const speciesApiCall = async (url?:string | null) =>{
-    const defaultUrl = `${baseUrl}/gender/`;
+  const speciesApiCall = async (url?: string | null) => {
+    const defaultUrl = `${baseUrl}/pokemon-species/`;
     let response = await axios<PokeApiResponse>(url ? url : defaultUrl);
     const results = response.data.results.map((value: any, index: number) => {
       return { ...value, id: index + 1 };
     });
     let data = response.data;
 
-    data= {...data, results};
+    data = { ...data, results };
     setGenderData(data);
-  }
+  };
 
   const updatePokemonData = (goTo: string) => {
     switch (goTo) {
@@ -127,29 +126,34 @@ const App: React.FC = () => {
       case "home":
         return <Home title="Home" />;
       case "pokemon":
-        return (
-          <>
-            <PokeView
-              title="Pokémon"
-              data={pokemonData?.results}
-              updateDataGrid={updatePokemonData}
-            />
-            <AbilityView
-              title="Habilidad"
-              data={abilityData?.results}
-              updateDataGrid={updateAbilityData}
-            />
-            <SpeciesView
-              title="Gender"
-              data={speciesData?.results}
-              updateDataGrid={updateSpeciesData}
-            />
-          </>
-        );
+        return <TabView tabs={tabs} />;
       default:
         return <Home title="Home" />;
     }
   };
+
+  const tabs = [
+    {
+      title: "Pokemon",
+      component: (
+        <PokeView
+          title="Pokémon"
+          data={pokemonData?.results}
+          updateDataGrid={updatePokemonData}
+        />
+      ),
+    },
+    {
+      title: "Habilidad",
+      component: (
+        <AbilityView
+          title="Habilidad"
+          data={abilityData?.results}
+          updateDataGrid={updateAbilityData}
+        />
+      ),
+    }
+  ];
 
   return (
     <div className="page-wrapper">

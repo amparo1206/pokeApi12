@@ -45,10 +45,11 @@ const DetailView = ({data}: DetailViewProps) => {
           <Typography color="textSecondary">
             {detailData?.name}
           </Typography>
-          <Typography variant="h5" component="h2">
-            Types
-          </Typography>
           {detailData?.types ? 
+          <>
+          <Typography variant="h5" component="h2">
+          Types
+        </Typography>
           <DataGrid
             dataSource={detailData?.types}
             columnAutoWidth = {true}
@@ -56,22 +57,21 @@ const DetailView = ({data}: DetailViewProps) => {
             <Column
               dataField="slot"
               caption="Id"
+              name="id"
               dataType="string"
               alignment="right"
             />
             <Column
               dataField="type.name"
               caption="Tipo"
+              name="name"
               dataType="string"
               alignment="right"
             />
-            <Column
-              dataField="type.name"
-              caption="Tipo"
-              dataType="string"
-              alignment="right"
-            />
+
           </DataGrid>
+          </>
+          
           : <></>
         }
           
