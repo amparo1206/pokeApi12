@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Card, CardContent, Typography } from '@material-ui/core';
 import axios from 'axios';
 import DataGrid, { Column } from 'devextreme-react/data-grid';
+import {Popup} from 'devextreme-react/popup';
+import {Button} from 'devextreme-react/button';
 import 'devextreme/dist/css/dx.light.css'
 
 
@@ -26,8 +28,29 @@ interface DetailDataInterface {
   ]
 }
 
+
 const DetailView = ({data}: DetailViewProps) => {
   const [detailData, setDetailData] = useState<DetailDataInterface | null>(null);
+  const [popupVisible, setPopupVisible] = useState(false);
+
+  const showPopup = () => {
+    setPopupVisible(true);
+  };
+
+  const hidePopup = () => {
+    setPopupVisible(false);
+  };
+
+  const popupContent = () => {
+    return (
+      <div>
+        <h2>Pop-up Content</h2>
+        <p>Esto es el contenido del popup</p>
+        <Button text="Close" onClick={hidePopup} />
+      </div>
+    );
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       const result = await axios(data.url);
@@ -37,8 +60,20 @@ const DetailView = ({data}: DetailViewProps) => {
   }, [data.url]);
 
     return (
-      <Card>
-        <CardContent>
+
+      <div>
+    <h2>Contenido del Popup</h2>
+    <p>Esto es el contenido del Popup</p>
+    <Button text = "show Pop-up" onClick={showPopup}/>
+    <>
+    <Popup
+    visible= {popupVisible}
+    onHiding = {hidePopup}
+    dragEnabled = {true}
+    closeOnOutsideClick = {true}
+    contentRender = {popupContent}
+    />
+
           <Typography variant="h5" component="h2">
             Id: {detailData?.id}
           </Typography>
@@ -74,10 +109,8 @@ const DetailView = ({data}: DetailViewProps) => {
           
           : <></>
         }
-          
-
-        </CardContent>
-      </Card>
+      </>
+      </div>
     );
 };
 export default DetailView;
