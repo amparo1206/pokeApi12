@@ -46,6 +46,7 @@ const DetailView = ({data}: DetailViewProps) => {
       <div>
         <h2>Contenido del Pop-up</h2>
         <p>Esto es el contenido del popup</p>
+        {gridContent()}
         <Button text="Close" onClick={hidePopup} />
       </div>
     );
@@ -105,7 +106,6 @@ const DetailView = ({data}: DetailViewProps) => {
 
       <div>
     <Button text = "Pop-up" onClick={showPopup}/>
-    {gridContent()}
     <Popup
     visible= {popupVisible}
     onHiding = {hidePopup}
