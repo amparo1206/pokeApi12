@@ -49,8 +49,8 @@ const PokeView = ({ title, data, updateDataGrid }: ViewProps) => {
             />
           </DataGrid>
 
-          <Button onClick={() => updateDataGrid("previous")}>Previous</Button>
-          <Button onClick={() => updateDataGrid("next")}>Next</Button>
+          <Button className="button-dev" onClick={() => updateDataGrid("previous")}>Previous</Button>
+          <Button className="button-dev" onClick={() => updateDataGrid("next")}>Next</Button>
         </div>
         <div className="poke-detail">
           {selectedData && <DetailView data={selectedData} />}
